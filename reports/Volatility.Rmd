@@ -1,4 +1,9 @@
+This code reads constant price GDP data, cleans and converts it to numeric form, and treats 
+each row as a sector across multiple years. For every sector, it computes the mean GDP, 
+standard deviation, and coefficient of variation to summarize the level and volatility of economic 
+performance over time.
 
+USED DATA : "FINAL GDP - CONSTANT.xlsx"
 
 
 
@@ -34,4 +39,5 @@ results <- df_numeric %>%
 
 
 results
+
 ```
