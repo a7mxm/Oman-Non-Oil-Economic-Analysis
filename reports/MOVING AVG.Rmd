@@ -74,7 +74,7 @@ legend("topleft",
 
 
 ```{r}
-# === Sector: Mining & Quarrying ===
+# Sector: Mining & Quarrying
 
 
 Year <- 2020:2024
@@ -102,9 +102,10 @@ legend("topleft",
 
 
 ```{r}
+# Electricity & Water GDP values
+
 Year <- 2020:2024
 
-# Electricity & Water GDP values
 ElecWater_GDP <- c(754.89, 867.73, 898.03, 941.86, 979.83)
 
 # --- 2-Year Moving Average ---
@@ -116,7 +117,7 @@ SMA2 <- c(NA,
 
 SMA2  # View the moving-average values
 
-# --- Plot (Actual vs 2-Year Moving Average) ---
+# Plot (Actual vs 2-Year Moving Average) 
 plot(Year, ElecWater_GDP, type="o", col="blue", lwd=3,
      xlab="Year", ylab="Electricity & Water GDP (Million OMR)",
      main="Electricity & Water GDP vs 2-Year Moving Average")
@@ -342,6 +343,7 @@ legend("topleft",
        legend=c("Actual GDP", "2-Year Moving Average"),
        col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
 ```
+
 
 
 
