@@ -1,0 +1,37 @@
+
+
+
+
+```{r}
+library(readxl)
+library(dplyr)
+```
+
+
+```{r}
+df <- read_excel("FINAL GDP - CONSTANT.xlsx")
+
+# Remove empty rows
+df <- df %>% filter(!is.na(Item))
+
+# Force numeric conversion
+df_numeric <- df %>%
+  mutate(across(-Item, ~as.numeric(.)))
+
+# Select numeric year columns
+years <- df_numeric %>% select(-Item) %>% names()
+
+# Compute Mean, SD, CV
+results <- df_numeric %>%
+  rowwise() %>%
+  mutate(
+    Mean = mean(c_across(all_of(years)), na.rm = TRUE),
+    SD   = sd(c_across(all_of(years)), na.rm = TRUE),
+    CV   = (SD / Mean) * 100
+  ) %>%
+  ungroup() %>%
+  select(Sector = Item, Mean, SD, CV)
+
+
+results
+```
