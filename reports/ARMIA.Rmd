@@ -6,7 +6,10 @@ output: html_document
 ---
 
 
-This code reads sectoral GDP data from an Excel file, cleans and converts it to numeric form, and treats each sector as an annual time series starting in 2010. For every sector, it checks stationarity using the ADF test, visualizes the original and differenced series, fits the best non seasonal ARIMA model automatically, and produces 16 year forecasts with plots.
+This code reads sectoral GDP data from an Excel file, cleans and converts it to numeric form, 
+and treats each sector as an annual time series starting in 2010. For every sector, it checks 
+stationarity using the ADF test, visualizes the original and differenced series, fits the best 
+non seasonal ARIMA model automatically, and produces 16 year forecasts with plots.
 
 USED DATA: "GDP.xlsx"
 
@@ -93,6 +96,7 @@ for (i in 1:nrow(gdp_data)) {
 
 
 ```
+
 
 
 
