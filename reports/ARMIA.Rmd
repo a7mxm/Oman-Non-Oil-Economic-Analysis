@@ -63,8 +63,8 @@ run_arima <- function(series, sector_name) {
   cat("\nBest ARIMA model:\n")
   print(fit)
   
-  # Forecast next 3 years
-  forecasted <- forecast(fit, h = 3)
+  # Forecast next 16 years
+  forecasted <- forecast(fit, h = 16)
   print(forecasted)
   
   # Plot forecast
@@ -88,6 +88,7 @@ for (i in 1:nrow(gdp_data)) {
 
 
 ```
+
 
 
 
