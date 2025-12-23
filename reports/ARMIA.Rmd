@@ -1,0 +1,102 @@
+---
+title: "ARMIA"
+author: "Ahmed Al Dhouani 129466"
+date: "2025-11-27"
+output: html_document
+---
+
+
+```{r}
+library(readxl)
+library(forecast)
+library(tseries)
+library(ggplot2)
+```
+
+
+
+```{r}
+df <- read_excel("GDP.xlsx")
+
+# Remove the first row if it contains NaN or header problems
+df <- df[-1, ]
+
+# Set "Item" column as sector names
+sectors <- df$Item
+
+# Keep only numeric GDP columns
+gdp_data <- df[, -1]  
+
+# Convert to numeric (in case Excel imported as characters)
+gdp_data <- data.frame(lapply(gdp_data, function(x) as.numeric(as.character(x))))
+
+# -----------------------------
+# FUNCTION TO RUN FULL ARIMA PIPELINE ON ONE SERIES
+# -----------------------------
+run_arima <- function(series, sector_name) {
+  
+  cat("\n\n=============================\n")
+  cat(" SECTOR:", sector_name, "\n")
+  cat("=============================\n")
+  
+  # Convert to time series (annual)
+  ts_data <- ts(series, start = 2010, frequency = 1)
+  
+  # Plot raw data
+  print(autoplot(ts_data) + ggtitle(paste("GDP Series -", sector_name)))
+  
+  # ADF stationarity test
+  cat("\nADF Test:\n")
+  print(adf.test(ts_data))
+
+  # Difference if needed
+  diff_data <- diff(ts_data)
+  
+  # Plot differenced data
+  print(autoplot(diff_data) + ggtitle(paste("Differenced GDP -", sector_name)))
+  
+  # ACF & PACF plots
+  print(ggAcf(diff_data) + ggtitle(paste("ACF -", sector_name)))
+  print(ggPacf(diff_data) + ggtitle(paste("PACF -", sector_name)))
+  
+  # Fit best ARIMA model automatically
+  fit <- auto.arima(ts_data, seasonal = FALSE)
+  
+  cat("\nBest ARIMA model:\n")
+  print(fit)
+  
+  # Forecast next 3 years
+  forecasted <- forecast(fit, h = 3)
+  print(forecasted)
+  
+  # Plot forecast
+  print(autoplot(forecasted) + ggtitle(paste("Forecast -", sector_name)))
+  
+  return(list(model = fit, forecast = forecasted))
+}
+
+# -----------------------------
+# RUN ARIMA FOR ALL SECTORS
+# -----------------------------
+results <- list()
+
+for (i in 1:nrow(gdp_data)) {
+  sector_name <- sectors[i]
+  sector_series <- as.numeric(gdp_data[i, ])
+  
+  results[[sector_name]] <- run_arima(sector_series, sector_name)
+}
+```
+
+
+
+
+```{r}
+```
+
+
+
+```{r}
+```
+
+
