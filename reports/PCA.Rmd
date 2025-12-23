@@ -5,6 +5,13 @@ date: "2025-11-29"
 output: html_document
 ---
 
+This code performs a Principal Component Analysis on standardized economic indicators (Share, Growth, logGDP) 
+to reduce dimensionality and identify the main underlying patterns in the data.
+It extracts and interprets the variance explained and loadings of each principal 
+component, then visualizes countries(Oman, Suadi, UAE) on a two dimensional biplot to compare their economic structures and growth profiles.
+
+USED DATA: "PCA_Final_Data.xlsx"
+
 ```{r}
 library(readxl)
 library(ggplot2)
@@ -87,3 +94,4 @@ fviz_pca_biplot(
 
 
 =
+
