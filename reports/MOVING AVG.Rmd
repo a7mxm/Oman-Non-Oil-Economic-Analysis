@@ -5,6 +5,9 @@ date: "2025-11-26"
 output: html_document
 ---
 
+This script manually enters GDP values (2020 to 2024) for multiple sectors, computes a 2 year simple moving average
+for each sector, and plots the actual series versus the moving average to smooth short term fluctuations and show the trend.
+
 ```{r}
 library(tidyverse)
 library(lubridate)
@@ -339,5 +342,6 @@ legend("topleft",
        legend=c("Actual GDP", "2-Year Moving Average"),
        col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
 ```
+
 
 
