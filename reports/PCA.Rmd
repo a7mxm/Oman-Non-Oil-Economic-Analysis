@@ -1,0 +1,89 @@
+---
+title: "PCA"
+author: "Ahmed Al Dhouani 129466"
+date: "2025-11-29"
+output: html_document
+---
+
+```{r}
+library(readxl)
+library(ggplot2)
+library(factoextra)
+library(dplyr)
+```
+
+
+
+```{r}
+df <- read_excel("PCA_Final_Data.xlsx")
+```
+
+
+
+```{r}
+# PCA only needs the variables without Country and Year.
+pca_data <- df %>%
+  select(Share, Growth, logGDP)
+
+# In order to obtain accurate results, it is necessary to standardize because the variables have different units.
+pca_scaled <- scale(pca_data)
+```
+
+
+
+
+```{r}
+# Step 3: Run PCA
+pca_model <- prcomp(pca_scaled, center = TRUE, scale. = TRUE)
+summary(pca_model)
+
+
+# This will give us:
+#The percentage of variance explained by PC1
+#The percentage of variance explained by PC2
+#How much they explain together (often above 80%, which is excellent)
+```
+
+
+
+```{r}
+# Step 4: Extracting the Loadings
+pca_model$rotation
+
+#This tells us:
+#Does PC1 represent “share + output level”?
+#Does PC2 represent “growth”?
+#From this, we can deduce the meaning of each component.
+```
+
+
+
+
+```{r}
+# Step 5: Add the country and year to the chart
+df$Country <- factor(df$Country)
+```
+
+
+
+```{r}
+# Step 6: Drawing the Biplot (Most Important Part)
+# This drawing will place:
+# Oman
+# United Arab Emirates
+# Saudi Arabia
+# on a two-dimensional map.
+
+
+fviz_pca_biplot(
+  pca_model,
+  geom.ind = "point",
+  habillage = df$Country, 
+  addEllipses = TRUE,    
+  label = "var",        
+  repel = TRUE
+)
+```
+
+
+=
