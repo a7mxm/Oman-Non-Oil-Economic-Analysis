@@ -3,7 +3,7 @@
 Reproducible R Markdown analyses of Oman’s non-oil economic sectors.
 
 ## Overview
-This repository contains selected analyses from my final year project, focusing on sector-level contributions, stability, and long-term growth of Oman’s non-oil economy under Vision 2040.
+This repository contains selected analyses from my final year project at Sultan Qaboos Uni, focusing on sector-level contributions, stability, and long-term growth of Oman’s non-oil economy under Vision 2040.
 
 ## Tools
 - R
