@@ -1,0 +1,343 @@
+---
+title: "Time Series(MA)"
+author: "Ahmed Al Dhouani"
+date: "2025-11-26"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(feasts)
+library(fable)
+```
+
+
+```{r}
+# Agriculture GDP Data
+Year <- 2020:2024
+Agri_GDP <- c(439.65, 480.99, 510.95, 549.08, 572.49)
+# 2-Year Moving Average (SMA)
+SMA2 <- c(NA,
+          (Agri_GDP[1] + Agri_GDP[2]) / 2,
+          (Agri_GDP[2] + Agri_GDP[3]) / 2,
+          (Agri_GDP[3] + Agri_GDP[4]) / 2,
+          (Agri_GDP[4] + Agri_GDP[5]) / 2)
+
+# Plot actual + SMA
+plot(Year, Agri_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Agriculture GDP",
+     main="Agriculture GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+
+```{r}
+# Years
+Year <- 2020:2024
+
+# Fishing GDP values
+Fish_GDP <- c(335.70, 368.34, 395.97, 411.70, 414.92)
+
+# 2-Year Moving Average
+SMA2 <- c(NA,
+          (Fish_GDP[1] + Fish_GDP[2]) / 2,
+          (Fish_GDP[2] + Fish_GDP[3]) / 2,
+          (Fish_GDP[3] + Fish_GDP[4]) / 2,
+          (Fish_GDP[4] + Fish_GDP[5]) / 2)
+
+SMA2  # To view the moving-average values
+
+# Plot (Actual GDP vs 2-Year Moving Average)
+plot(Year, Fish_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Fishing GDP (Million OMR)",
+     main="Fishing GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual Fishing GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+```{r}
+# === Sector: Mining & Quarrying ===
+
+
+Year <- 2020:2024
+
+Mining_GDP <- c(239.37, 213.93, 228.08, 232.19, 234.93)
+
+SMA2 <- c(NA,
+          (Mining_GDP[1] + Mining_GDP[2]) / 2,
+          (Mining_GDP[2] + Mining_GDP[3]) / 2,
+          (Mining_GDP[3] + Mining_GDP[4]) / 2,
+          (Mining_GDP[4] + Mining_GDP[5]) / 2)
+
+SMA2
+
+plot(Year, Mining_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Mining & Quarrying GDP (Million OMR)",
+     main="Mining & Quarrying GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual Mining GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+```{r}
+Year <- 2020:2024
+
+# Electricity & Water GDP values
+ElecWater_GDP <- c(754.89, 867.73, 898.03, 941.86, 979.83)
+
+# --- 2-Year Moving Average ---
+SMA2 <- c(NA,
+          (ElecWater_GDP[1] + ElecWater_GDP[2]) / 2,
+          (ElecWater_GDP[2] + ElecWater_GDP[3]) / 2,
+          (ElecWater_GDP[3] + ElecWater_GDP[4]) / 2,
+          (ElecWater_GDP[4] + ElecWater_GDP[5]) / 2)
+
+SMA2  # View the moving-average values
+
+# --- Plot (Actual vs 2-Year Moving Average) ---
+plot(Year, ElecWater_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Electricity & Water GDP (Million OMR)",
+     main="Electricity & Water GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+```{r}
+# Sector: Manufacturing Industry
+
+
+Year <- 2020:2024
+
+Manuf_GDP <- c(2819.51, 3019.22, 3442.41, 3347.05, 3624.92)
+
+SMA2 <- c(
+  NA,
+  (Manuf_GDP[1] + Manuf_GDP[2]) / 2,
+  (Manuf_GDP[2] + Manuf_GDP[3]) / 2,
+  (Manuf_GDP[3] + Manuf_GDP[4]) / 2,
+  (Manuf_GDP[4] + Manuf_GDP[5]) / 2
+)
+
+SMA2 
+
+
+plot(Year, Manuf_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Manufacturing GDP (Million OMR)",
+     main="Manufacturing GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+```{r}
+# Sector: Telecommunications & Information
+
+
+Year <- 2020:2024
+
+Tele_GDP <- c(600.15, 587.96, 648.88, 688.10, 692.85)
+
+
+SMA2 <- c(
+  NA,
+  (Tele_GDP[1] + Tele_GDP[2]) / 2,
+  (Tele_GDP[2] + Tele_GDP[3]) / 2,
+  (Tele_GDP[3] + Tele_GDP[4]) / 2,
+  (Tele_GDP[4] + Tele_GDP[5]) / 2
+)
+
+SMA2 
+
+
+plot(Year, Tele_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Telecom & Information GDP (Million OMR)",
+     main="Telecom & Information GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+```{r}
+# Sector: Transportation & Storage 
+
+Year <- 2020:2024
+
+Trans_GDP <- c(1558.87, 1862.82, 2088.97, 2147.40, 2253.82)
+
+SMA2 <- c(
+  NA,
+  (Trans_GDP[1] + Trans_GDP[2]) / 2,
+  (Trans_GDP[2] + Trans_GDP[3]) / 2,
+  (Trans_GDP[3] + Trans_GDP[4]) / 2,
+  (Trans_GDP[4] + Trans_GDP[5]) / 2
+)
+
+SMA2  
+
+plot(Year, Trans_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Transport & Storage GDP (Million OMR)",
+     main="Transport & Storage GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+
+```{r}
+# Sector: Wholesale & Retail Trade
+
+Year <- 2020:2024
+
+Trade_GDP <- c(2651.32, 2744.04, 3023.17, 3020.52, 3225.80)
+
+SMA2 <- c(
+  NA,
+  (Trade_GDP[1] + Trade_GDP[2]) / 2,
+  (Trade_GDP[2] + Trade_GDP[3]) / 2,
+  (Trade_GDP[3] + Trade_GDP[4]) / 2,
+  (Trade_GDP[4] + Trade_GDP[5]) / 2
+)
+
+SMA2
+
+plot(Year, Trade_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Wholesale & Retail Trade GDP (Million OMR)",
+     main="Wholesale & Retail Trade GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+
+```{r}
+#Sector: Real Estate
+
+Year <- 2020:2024
+
+RealEstate_GDP <- c(851.52, 866.23, 879.23, 902.37, 922.88)
+
+
+SMA2 <- c(
+  NA,
+  (RealEstate_GDP[1] + RealEstate_GDP[2]) / 2,
+  (RealEstate_GDP[2] + RealEstate_GDP[3]) / 2,
+  (RealEstate_GDP[3] + RealEstate_GDP[4]) / 2,
+  (RealEstate_GDP[4] + RealEstate_GDP[5]) / 2
+)
+
+SMA2
+
+plot(Year, RealEstate_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Real Estate & Professional Services GDP (Million OMR)",
+     main="Real Estate GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
+
+
+
+```{r}
+# Sector: Health
+
+Year <- 2020:2024
+
+Health_GDP <- c(908.30, 935.94, 973.30, 999.58, 1037.52)
+
+SMA2 <- c(
+  NA,
+  (Health_GDP[1] + Health_GDP[2]) / 2,
+  (Health_GDP[2] + Health_GDP[3]) / 2,
+  (Health_GDP[3] + Health_GDP[4]) / 2,
+  (Health_GDP[4] + Health_GDP[5]) / 2
+)
+
+SMA2
+
+plot(Year, Health_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Health GDP (Million OMR)",
+     main="Health GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+  
+  
+
+
+```{r}
+# Sector: Tourism
+
+Year <- 2020:2024
+
+Tourism_GDP <- c(467.00, 537.22, 844.77, 1020.61, 1112.25)
+
+SMA2 <- c(
+  NA,
+  (Tourism_GDP[1] + Tourism_GDP[2]) / 2,
+  (Tourism_GDP[2] + Tourism_GDP[3]) / 2,
+  (Tourism_GDP[3] + Tourism_GDP[4]) / 2,
+  (Tourism_GDP[4] + Tourism_GDP[5]) / 2
+)
+
+SMA2
+
+plot(Year, Tourism_GDP, type="o", col="blue", lwd=3,
+     xlab="Year", ylab="Tourism GDP (Million OMR)",
+     main="Tourism GDP vs 2-Year Moving Average")
+lines(Year, SMA2, type="o", col="darkgreen", lwd=3, lty=2)
+
+legend("topleft",
+       legend=c("Actual GDP", "2-Year Moving Average"),
+       col=c("blue", "darkgreen"), lwd=3, lty=c(1,2), pch=1)
+```
+
+
